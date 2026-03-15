@@ -1,0 +1,48 @@
+{% extends "auctions/layout.html" %}
+{% load humanize %}
+{% load static %}
+{% block body %}
+
+    <div class="label">
+        <h2>Closed Listings</h2>
+        <p id="comment"> Click here to view all <a href="{% url 'index' %}">Active Listings</a></p>
+        <div>
+            <form action="{% url 'closed_listings' %}" method="get">
+                <label for="category">Filter by Category:</label>
+
+                <select name="category" id="category">
+                    <option value="">All Categories</option>
+
+                    {% for category in categories %}
+                        <option value="{{ category.name }}" {% if request.GET.category == category.name %} selected {% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Filter" class="filter-btn">
+            </form>
+        </div>
+
+        {% for listing in closed_listings %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ listing.image_url }}" class="img-fluid rounded-start" alt="{{ listing.title }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ listing.title }}</h5>
+                            <p class="card-text">Price: ${{ listing.current_price|intcomma }}</p>
+                            <h3 style= "color: red;">Closed</h3>
+                            <p class="card-text">{{ listing.description }}</p>
+                            <a href="{% url 'listing' id=listing.id %}" class="btn btn-primary">Details</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>This page is empty</p>
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

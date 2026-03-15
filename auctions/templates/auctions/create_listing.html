@@ -1,0 +1,48 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class="label">
+        <h2>Create Listings</h2>
+        <p id="comment"> </p>
+        fill out the form below to create a new listing for your auction item.
+    </div>
+
+    <form action="{% url 'create' %}" , method="post">
+        {% csrf_token %}
+        <div class="col-12">
+            <label for="Title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="inputEmail4" name="title">
+        </div>
+
+        <div class="col-12">
+            <label for="Description" class="form-label">Description</label>
+            <textarea class="form-control" id="inputPassword4" name="description"></textarea>
+        </div>
+
+        <div class="col-12">
+            <label for="starting_bid" class="form-label">Starting Bid</label>
+            <input type="text" class="form-control" id="inputAddress" name="starting_bid">
+        </div>
+
+        <div class="col-12">
+            <label for="Imageurl" class="form-label">Image url</label>
+            <input type="text" class="form-control" id="inputZip" name="image_url">
+        </div>
+
+
+
+        <div class="col-12">
+            <label for="Category" class="form-Category">Category</label>
+            <select id="inputState" class="form-select" name="category">
+                {% for category in categories %}
+                    <option selected>{{category}}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="col-12" id="create-btn">
+            <br>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </div>
+    </form>
+{% endblock %}

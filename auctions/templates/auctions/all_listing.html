@@ -1,0 +1,47 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+    <div class="label">
+        <h2>All Listings</h2>
+        <p id="comment"> Click here to view all <a href="{% url 'index' %}">Active Listings</a></p>
+        <div>
+            <form action="{% url 'index' %}" method="get">
+                <label for="category">Filter by Category:</label>
+
+                <select name="category" id="category">
+                    <option value="">All Categories</option>
+
+                    {% for category in categories %}
+                        <option value="{{ category.name }}" {% if request.GET.category == category.name %} selected {% endif %}>{{ category }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Filter" class="filter-btn">
+            </form>
+        </div>
+
+        {% for listing in all_listings %}
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ listing.image_url }}" class="img-fluid rounded-start" alt="{{ listing.title }}">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ listing.title }}</h5>
+                            <p class="card-text">Price: ${{ listing.current_price|intcomma }}</p>
+                            <p class="card-text">Owner: {{listing.owner}}</p>
+                            <p class="card-text">{{ listing.description }}</p>
+                            <a href="{% url 'listing' id=listing.id %}" class="btn btn-primary">Details</a>
+                            <p class="card-text"><small class="text-body-secondary">Created {{ listing.created_at|timesince }} ago</small></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p>This page is empty</p>
+
+        {% endfor %}
+
+    </div>
+
+{% endblock %}

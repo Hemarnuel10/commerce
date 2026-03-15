@@ -1,0 +1,27 @@
+{% extends "auctions/layout.html" %}
+{% load humanize %}
+
+{% block title %}
+    Categories
+{% endblock %}
+
+{% block body %}
+    <div class="cate-container">
+        <h1 class="cate-title">Categories</h1>
+        <div class="row">
+            {% for category in categories %}
+                <div class="card mb-3 boder">
+                    <div class="row g-0">
+                        <div class="Cate-boder">
+                            <a href="{% url 'items' category.id %}" class="">
+                                <span class="">{{ category.name }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No categories available.</p>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
